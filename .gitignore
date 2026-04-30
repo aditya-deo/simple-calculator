@@ -1,0 +1,102 @@
+# =========================
+# Build results
+# =========================
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+build/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+
+# =========================
+# Visual Studio files
+# =========================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Rider / VS Code (optional)
+# =========================
+.idea/
+.vscode/
+
+# =========================
+# Logs & temp files
+# =========================
+*.log
+*.tlog
+*.tmp
+*.temp
+*.cache
+
+# =========================
+# NuGet
+# =========================
+packages/
+*.nupkg
+*.snupkg
+project.assets.json
+project.nuget.cache
+
+# (Keep this if using packages.config, otherwise ignore)
+# !packages/repositories.config
+
+# =========================
+# Publish output
+# =========================
+publish/
+*.publishproj
+*.pubxml.user
+
+# =========================
+# Windows-specific
+# =========================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# Resharper / Code analysis
+# =========================
+_ReSharper*/
+*.DotSettings.user
+
+# =========================
+# Test results
+# =========================
+TestResults/
+
+# =========================
+# Installer / setup outputs
+# =========================
+*.msi
+*.exe
+*.cab
+
+# =========================
+# Auto-generated files
+# =========================
+*.Designer.cs
+*.generated.cs
+*.g.cs
+*.g.i.cs
+
+# =========================
+# Entity Framework
+# =========================
+*.edmx.diagram
+
+# =========================
+# Others
+# =========================
+*.dbmdl
+*.bak
+*.backup
+*.orig
