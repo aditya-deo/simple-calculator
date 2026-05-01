@@ -2,26 +2,48 @@ namespace Calculator
 {
     public partial class Form1 : Form
     {
-        private string CurrentSelectedOperation { get; set; }
-        private string Operand1 { get; set; }
-        private string Operand2 { get; set; }
+        private string SelectedOperator { get; set; }
+        private decimal Operand1 { get; set; }
+        private decimal Operand2 { get; set; }
+        private int state { get; set; } 
         public Form1()
         {
             InitializeComponent();
-            CurrentSelectedOperation = String.Empty;
-            Operand1 = String.Empty;
-            Operand2 = String.Empty;
+            SelectedOperator = String.Empty;
+            Operand1 = default(int);
+            Operand2 = default(int);
+            state = 1;
         }
         public void WriteNumber(Button button)
         {
             textBox1.Text = textBox1.Text + button.Text;
-            if (String.IsNullOrEmpty(CurrentSelectedOperation))
+            switch (state)
             {
-                Operand1 = textBox1.Text;
-            }
-            else
-            {
-                Operand2 = textBox1.Text;
+                case 0:
+                    state = 1;
+                    Operand1 = Convert.ToDecimal(textBox1.Text);
+                    break;
+                case 1:
+                    state = 2;
+                    Operand1 = Convert.ToDecimal(textBox1.Text);
+                    break;
+                case 2:
+                    state = 2;
+                    Operand1 = Convert.ToDecimal(textBox1.Text);
+                    break;
+                case 3:
+                    state = 4;
+                    Operand2 = Convert.ToDecimal(textBox1.Text);
+                    break;
+                case 4:
+                    state = 4;
+                    Operand2 = Convert.ToDecimal(textBox1.Text);
+                    break;
+                case 5:
+                    state = 2;
+                    Operand2 = default(int);
+                    Operand1 = Convert.ToDecimal(textBox1.Text);
+                    break;
             }
         }
         public void ClearInput(Object sender, EventArgs e)
@@ -31,28 +53,30 @@ namespace Calculator
         public void OperationButtonClick(Object sender, EventArgs e)
         {
             ClearInput(sender, e);
-            string operation = ((Button)sender).Text;
-            switch (operation)
+            SelectedOperator = ((Button)sender).Text;
+            switch (state)
             {
-                case "+":
-                    CurrentSelectedOperation = "Add";
+                case 0:
+                    state = 0;
                     break;
-                case "-":
-                    CurrentSelectedOperation = "Subtract";
+                case 1:
+                    state = 0;
                     break;
-                case "X":
-                    CurrentSelectedOperation = "Multiply";
+                case 2:
+                    state = 3;
                     break;
-                case "/":
-                    CurrentSelectedOperation = "Divide";
+                case 3:
+                    state = 0;
                     break;
-                case "%":
-                    CurrentSelectedOperation = "Percentage";
+                case 4:
+                    state = 3;
+                    Operand1 = Operate(SelectedOperator);
+                    Operand2 = default(int);
                     break;
-            }
-            if (!String.IsNullOrEmpty(Operand2))
-            {
-                Operate();
+                case 5:
+                    state = 3;
+                    Operand2 = default(int);
+                    break;
             }
         }
         public void NumButtonClick(Object sender, EventArgs e)
@@ -61,32 +85,28 @@ namespace Calculator
             WriteNumber(button);
         }
 
-        private void Operate()
+        public void EqualsToClick(Object sender, EventArgs e)
         {
-            switch (CurrentSelectedOperation)
-            {
-                case "Add":
-                    Operand1 = Convert.ToString(Convert.ToDecimal(Operand1) + Convert.ToDecimal(Operand2));
-                    break;
-                case "Subtract":
-                    Operand1 = Convert.ToString(Convert.ToDecimal(Operand1) - Convert.ToDecimal(Operand2));
-                    break;
-                case "Multiply":
-                    Operand1 = Convert.ToString(Convert.ToDecimal(Operand1) * Convert.ToDecimal(Operand2));
-                    break;
-                case "Divide":
-                    Operand1 = Convert.ToString(Convert.ToDecimal(Operand1) / Convert.ToDecimal(Operand2));
-                    break;
-                case "Percentage":
-                    Operand1 = Convert.ToString(Convert.ToDecimal(Operand1) / Convert.ToDecimal(100));
-                    break;
-            }
+            Operand1 = Operate(SelectedOperator);
+            textBox1.Text = Convert.ToString(Operand1);
         }
 
-        public void PrintResult(Object sender, EventArgs e)
+        private decimal Operate(string operation)
         {
-            Operate();
-            textBox1.Text = Operand1;
+            switch (operation)
+            {
+                case "+":
+                    return Operand1 + Operand2;
+                case "-":
+                    return Operand1 - Operand2;
+                case "X":
+                    return Operand1 * Operand2;
+                case "/":
+                    return Operand1 / Operand2;
+                case "%":
+                    return Operand1 / 100;
+            }
+            return 0;
         }
     }
 }
